@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Cornerstone Retreat Registration System</title>
+    <link rel="stylesheet" href="/style.css">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<body>
+    <div class="container">
+        <img src="https://lh3.googleusercontent.com/pw/AP1GczPrZsgmxJZNQeobxK8ktUQd9uyh5YFTJ7kmr5b9VBI-X2P8etIJgkgP7mBRf3RKliHatT9ImLhLAmbNPod1GBu5GjkYzeCI5KxmxSC3d_tlP-11WQ=w2400" alt="Header Image" style="width: 100%; border-radius: 8px; margin-bottom: 20px;">
+        <h2>Registration Login</h2>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="text" id="otp" placeholder="One Time Password">
+        <button id="requestOtp">Request One Time Password (OTP)</button>
+        <button id="login">Login</button>
+    </div>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // Determine the environment
+        let baseUrl;
+        baseUrl = 'https://retreatreg-rest.fly.dev';
+/*
+        if (window.location.hostname === 'localhost') {
+            baseUrl = 'http://localhost:3000'; // Local development
+        } else if (window.location.hostname === '192.168.1.117') {
+            baseUrl = 'http://192.168.1.117:3000'; // Intranet testing (replace with actual URL)
+        } else {
+            baseUrl = 'https://retreatreg-rest.fly.dev/'; // Production URL (replace with actual URL)
+        }
+*/
+        const sendOtpUrl = `${baseUrl}/sendOTP`;
+        const verifyOtpUrl = `${baseUrl}/verifyOTP`;
+        const requestOtpBtn = document.getElementById('requestOtp');
+        const loginBtn = document.getElementById('login');
+        const otpField = document.getElementById('otp');
+
+        // Check if user is logged in
+        checkLoginStatus();
+
+        function checkLoginStatus() {
+            const loginTimestamp = localStorage.getItem('loginTimestamp');
+            if (loginTimestamp) {
+                const now = new Date().getTime();
+                //const oneDay = 24 * 60 * 60 * 1000; // 1 day in milliseconds
+                const oneDay = 60 * 1000; // unit test 1 minute in milliseconds
+                if (now - loginTimestamp > oneDay) {
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('loginTimestamp');
+                } else {
+                    window.location.href = 'form.html'; // Redirect to the input form page
+                }
+            }
+        }
+
+        function validateEmail(email) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
+
+        // Request OTP
+        requestOtpBtn.addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+            otpField.value = '';
+
+            if (!email) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Email Required',
+                    text: 'Please enter your email address',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            if (!validateEmail(email)) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Invalid Email',
+                    text: 'Please enter a valid email address',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            disableRequestButton(60);
+
+            try {
+                const response = await fetch(sendOtpUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email }),
+                });
+
+                if (response.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'OTP Sent',
+                        text: 'OTP sent to your email',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to send OTP',
+                        confirmButtonText: 'Try Again'
+                    });
+                    enableRequestButton();
+                }
+            } catch (error) {
+                console.error('Error requesting OTP:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Something went wrong. Please try again later.',
+                    confirmButtonText: 'OK'
+                });
+                enableRequestButton();
+            }
+        });
+
+        // Login with OTP
+        loginBtn.addEventListener('click', async () => {
+        const email = document.getElementById('email').value;
+        const otp = otpField.value;
+
+        if (!email || !otp) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Required fields',
+                text: 'Please enter both email and OTP',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
+
+        try {
+            const response = await fetch(verifyOtpUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, otp }),
+            });
+
+            if (response.ok) {
+                const { userData } = await response.json();
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('loginTimestamp', new Date().getTime());
+                localStorage.setItem('userData', JSON.stringify(userData)); // Store userData
+                const userDataJSON = JSON.stringify(userData);
+                console.log(`User data fetched: ${userDataJSON}`);
+                
+                //const paidFlag = (JSON.parse(userDataJSON)).paidFlag;
+                console.log(`systemOpen fetched: ${userData.systemOpen}`);
+
+                // Cannot update if Paid already or system not open
+                const isPaid = userData.paidFlag.toLowerCase() === 'y';
+                const isSystemOpen = userData.systemOpen.toLowerCase() === 'y';
+                const action = isPaid || !isSystemOpen ? 'only review' : 'update';
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Successful',
+                    text: `Welcom back!  You can ${action} your submitted info now.`,
+                    confirmButtonText: 'Proceed',
+                }).then(() => {
+                    window.location.href = 'form.html';
+                });
+            // new user without real data except the system open flag & email
+            } else if (response.status === 404) {
+                const { userData } = await response.json();
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('loginTimestamp', new Date().getTime());
+                localStorage.setItem('userData', JSON.stringify(userData)); // Store userData
+                const userDataJSON = JSON.stringify(userData);
+                console.log(`User data fetched: ${userDataJSON}`);
+                console.log(`User data not found. Assumming a new user`);
+                console.log(`systemOpen fetched: ${userData.systemOpen}`);
+
+                // Cannot register if system not open
+                const isSystemOpen = userData.systemOpen.toLowerCase() === 'y';
+
+                if (isSystemOpen) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Login Successful',
+                        text: 'Welcome to the Registration System!',
+                        confirmButtonText: 'Proceed',
+                    }).then(() => {
+                        window.location.href = 'form.html';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'System closed',
+                        text: 'You cannot do registration now',
+                        confirmButtonText: 'Proceed',
+                    });
+                }
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid OTP',
+                    text: 'The OTP you entered is incorrect. Please try again.',
+                    confirmButtonText: 'OK'
+                });
+            }
+        }   catch (error) {
+                console.error('Error during login:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Something went wrong. Please try again later.',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+
+        function disableRequestButton(seconds) {
+            requestOtpBtn.disabled = true;
+            let countdown = seconds;
+            requestOtpBtn.innerText = `Request again in ${countdown} seconds`;
+
+            const countdownInterval = setInterval(() => {
+                countdown--;
+                requestOtpBtn.innerText = `Request again in ${countdown} seconds`;
+
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    enableRequestButton();
+                }
+            }, 1000);
+        }
+
+        function enableRequestButton() {
+            requestOtpBtn.disabled = false;
+            requestOtpBtn.innerText = 'Request One Time Password (OTP)';
+        }
+
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || 
+               (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) || 
+               (e.ctrlKey && e.key === 'U')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+body {
+    font-family: 'Roboto', sans-serif; /* Professional and modern font */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #eef2f7; /* Light background */
+}
+
+/* Horizontal line divider */
+.divider {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 460px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #fff;
+    position: relative;
+    max-height: 80vh; /* Set a maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Logout button style */
+.logout-btn {
+    position: absolute;
+    top: 2px;
+    right: 10px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    z-index: 2;
+}
+
+/* General text and labels */
+p, h3, label {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* Input field styles */
+.container input, .container select {
+    width: 100%;
+    padding: 14px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+}
+
+/* Input fields: border color on focus */
+.container input:focus, .container select:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+/* Hint text styling */
+.hint {
+    font-size: 14px;
+    color: #d9534f; /* Red color for hints */
+    margin-top: -5px; /* Move the hint text closer to the input */
+    margin-bottom: 10px; /* Space between hint and next element */
+    display: none; /* Initially hidden */
+}
+
+/* Show hint text when input is required */
+input:invalid ~ .hint, 
+select:invalid ~ .hint {
+    display: block; /* Show hint text if the input is invalid */
+}
+
+/* T-shirt order table styling */
+#tshirtOrderTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+#tshirtOrderTable th, #tshirtOrderTable td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    color: #555; /* Darker font color */
+}
+
+/* Column width adjustment */
+#tshirtOrderTable th:first-child,
+#tshirtOrderTable td:first-child {
+    width: 10%; /* Narrowest column for row numbers */
+}
+
+#tshirtOrderTable th:nth-child(2),
+#tshirtOrderTable td:nth-child(2) {
+    width: 40%; /* Widest column for color dropdown */
+}
+
+#tshirtOrderTable th:nth-child(3),
+#tshirtOrderTable td:nth-child(3) {
+    width: 25%; 
+}
+
+#tshirtOrderTable th:nth-child(4),
+#tshirtOrderTable td:nth-child(4) {
+    width: 25%; 
+}
+
+/* Button styling */
+button {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button#calculateFee {
+    background-color: #4CAF50;
+    color: white;
+}
+
+button#submitForm:disabled {
+    background-color: #d3d3d3;
+    color: darkgray;
+    cursor: not-allowed;
+}
+
+button#calculateFee:hover, button#submitForm:hover {
+    background-color: #45a049;
+}
+
+/* Total fee section */
+#totalFee, #feeAmount {
+    font-weight: bold;
+    color: #000;
+    font-size: 18px;
+}
+
+/* Event info styling */
+#eventInfo1, #eventInfo2, #eventInfo3 {
+    font-family: 'Georgia', serif;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+    margin: 10px 0;
+    padding: 10px;
+    border-left: 4px solid #4CAF50;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        max-width: 100%;
+        padding: 15px;
+    }
+}

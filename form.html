@@ -3,242 +3,531 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Cornerstone Retreat Registration System</title>
-    <link rel="stylesheet" href="/style.css">
-    <!-- SweetAlert2 CSS -->
+    <title>Retreat Registration Form</title>
+    <link rel="stylesheet" href="/style.css"> <!-- Link to external CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
+    <button class="logout-btn" id="logoutBtn" style="width: auto;">&#10006;</button>
     <div class="container">
-        <img src="https://lh3.googleusercontent.com/pw/AP1GczPrZsgmxJZNQeobxK8ktUQd9uyh5YFTJ7kmr5b9VBI-X2P8etIJgkgP7mBRf3RKliHatT9ImLhLAmbNPod1GBu5GjkYzeCI5KxmxSC3d_tlP-11WQ=w2400" alt="Header Image" style="width: 100%; border-radius: 8px; margin-bottom: 20px;">
-        <h2>Registration Login</h2>
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="text" id="otp" placeholder="One Time Password">
-        <button id="requestOtp">Request One Time Password (OTP)</button>
-        <button id="login">Login</button>
-    </div>
+        <h2>Cornerstone Fellowship<br>Retreat Registration Form</h2>
+        <p id="eventInfo1">
+            Please note that no matter how many persons (up to four) stay in the unit, you will pay the resident a fixed fee of $999. Besides, each person has to pay for a meal plan of $200. The meal plan includes two meals per day for two days. There are no partial meal plans available.
+        </p>
+        
+        <input type="tel" id="phone" placeholder="Contact Mobile 123-456-7890" required>
+        <span class="hint" id="hintPhone1">Contact mobile number is required</span>
+        <label for="numFamilies">Number of families in the unit:</label>
+        <select id="numFamilies">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+        </select>
 
-    <!-- SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <h3>Room 1</h3>
+        <input type="text" id="name1" placeholder="Name 1" required>
+        <span class="hint" id="hintName1">Name 1 is required</span>
+        <input type="text" id="name2" placeholder="Name 2">
+        <span class="hint" id="hintName2" style="display: none;">Optional</span>
+
+        <h3>Room 2</h3>
+        <input type="text" id="name3" placeholder="Name 3">
+        <span class="hint" id="hintName3" style="display: none;">Name 3 is required if 2 families</span>
+        <input type="text" id="name4" placeholder="Name 4">
+        <span class="hint" id="hintName4" style="display: none;">Optional</span>
+
+        <hr class="divider">
+
+        <label>T-shirt Order details:</label>
+        <p id="eventInfo2">
+            The price for each T-shirt is $20.  If you wish to place an order, select the colour, size, and quantity.
+        </p>
+        
+        <table id="tshirtOrderTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Color</th>
+                    <th>Size</th>
+                    <th>Qty</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <select id="colorSelect1" class="colorSelect">
+                            <option value="Black" selected>Black</option>
+                            <option value="White">White</option>
+                            <option value="Yellow">Yellow</option>
+                            <option value="Red">Red</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="sizeSelect1" class="sizeSelect">
+                            <option value="S" selected>S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="qtySelect1" class="qtySelect">
+                            <option value="0" selected>0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>
+                        <select id="colorSelect2" class="colorSelect">
+                            <option value="Black" selected>Black</option>
+                            <option value="White">White</option>
+                            <option value="Yellow">Yellow</option>
+                            <option value="Red">Red</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="sizeSelect2" class="sizeSelect">
+                            <option value="S" selected>S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="qtySelect2" class="qtySelect">
+                            <option value="0" selected>0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>
+                        <select id="colorSelect3" class="colorSelect">
+                            <option value="Black" selected>Black</option>
+                            <option value="White">White</option>
+                            <option value="Yellow">Yellow</option>
+                            <option value="Red">Red</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="sizeSelect3" class="sizeSelect">
+                            <option value="S" selected>S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="qtySelect3" class="qtySelect">
+                            <option value="0" selected>0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>
+                        <select id="colorSelect4" class="colorSelect">
+                            <option value="Black" selected>Black</option>
+                            <option value="White">White</option>
+                            <option value="Yellow">Yellow</option>
+                            <option value="Red">Red</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="sizeSelect4" class="sizeSelect">
+                            <option value="S" selected>S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="qtySelect4" class="qtySelect">
+                            <option value="0" selected>0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p id="eventInfo3">
+            Please click the calculate button to see the total fees before you submit the registration.
+        </p>
+
+        <p style="display: flex; justify-content: space-between; align-items: center;">
+            <span id="totalFee">Total Fee: $<span id="feeAmount">0.00</span></span>
+            <button id="calculateFee" style="width: auto;">Calculate</button>
+        </p>
+
+        <button id="clearInput">Clear</button>
+        <button id="submitForm" disabled>Submit</button>
+    </div>
 
     <script>
         // Determine the environment
         let baseUrl;
         baseUrl = 'https://retreatreg-rest.fly.dev';
+
+        const saveOrUpdateUrl = `${baseUrl}/saveOrUpdate`;
+        var userDataEmail;
+        var userDataRegDate;
+        var userDataUpdTimestamp;
+
+        if (!sessionStorage.getItem("isLoggedIn")) {
+            // Redirect to login page if not logged in
+            clearStorage();
+            window.location.href = "index.html";
+        }
+        // Jump back to login page if the user email is not saved previously
+        const uData = localStorage.getItem('userData');
+        if (uData === null || uData === "") {
+            console.log("User data is missing in the local storage.");
+            clearStorage();
+            window.location.href = "index.html";
+        } else {
+            console.log("uData:", uData);
+        }
+
+        // Clear storage
+        function clearStorage() {
+            localStorage.removeItem('loginTimestamp');
+            sessionStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userData');
+        }
+
+        function checkLoginStatus() {
+            /* TODO comment out for unit test */
+            const loginTimestamp = localStorage.getItem('loginTimestamp');
+            //24 hours timeout
+            if (!loginTimestamp || (Date.now() - loginTimestamp) > 86400000) {
+                Swal.fire({
+                    title: 'Session Expired!',
+                    text: 'You have been logged out due to inactivity. Please log in again.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.href = 'index.html';
+                });
+                return false;
+            }
+            return true;
+        }
+
+        // Function to set the selected value of a pulldown menu
+        function setSelectedValue(selectElement, value) {
+            if (value !== undefined && value !== null) {
+                selectElement.value = value;
+            }
+        }
+        // Load existing user data from localStorage
+        function loadUserData() {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            const userDataJSON = JSON.stringify(userData);
+            console.log(`User data loaded: ${userDataJSON}`);
+            if (userData) {
+                userDataEmail = userData.email;
+                document.getElementById('phone').value = userData.mobile || '';
+
+                const familySelect = document.getElementById('numFamilies');
+                setSelectedValue(familySelect, userData.numOfFam);
+
+                document.getElementById('name1').value = userData.names[0] || '';
+                document.getElementById('name2').value = userData.names[1] || '';
+                document.getElementById('name3').value = userData.names[2] || '';
+                document.getElementById('name4').value = userData.names[3] || '';
+
+                const colorSelect1 = document.getElementById('colorSelect1');
+                setSelectedValue(colorSelect1, userData.tshirts[0].color); 
+                const sizeSelect1 = document.getElementById('sizeSelect1');
+                setSelectedValue(sizeSelect1, userData.tshirts[0].size); 
+                const qtySelect1 = document.getElementById('qtySelect1');
+                setSelectedValue(qtySelect1, userData.tshirts[0].qty); 
+
+                const colorSelect2 = document.getElementById('colorSelect2');
+                setSelectedValue(colorSelect2, userData.tshirts[1].color); 
+                const sizeSelect2 = document.getElementById('sizeSelect2');
+                setSelectedValue(sizeSelect2, userData.tshirts[1].size); 
+                const qtySelect2 = document.getElementById('qtySelect2');
+                setSelectedValue(qtySelect2, userData.tshirts[1].qty); 
+
+                const colorSelect3 = document.getElementById('colorSelect3');
+                setSelectedValue(colorSelect3, userData.tshirts[2].color); 
+                const sizeSelect3 = document.getElementById('sizeSelect3');
+                setSelectedValue(sizeSelect3, userData.tshirts[2].size); 
+                const qtySelect3 = document.getElementById('qtySelect3');
+                setSelectedValue(qtySelect3, userData.tshirts[2].qty); 
+
+                const colorSelect4 = document.getElementById('colorSelect4');
+                setSelectedValue(colorSelect4, userData.tshirts[3].color); 
+                const sizeSelect4 = document.getElementById('sizeSelect4');
+                setSelectedValue(sizeSelect4, userData.tshirts[3].size); 
+                const qtySelect4 = document.getElementById('qtySelect4');
+                setSelectedValue(qtySelect4, userData.tshirts[3].qty); 
+
+                document.getElementById('feeAmount').textContent =
+                    (userData.totalFee !== undefined && userData.totalFee !== null) ? parseFloat(userData.totalFee).toFixed(2) : '0.00';
+
+                userDataRegDate = userData.regDate;
+                userDataUpdTimestamp = userData.updTimestamp;
+            }
+        }
+
+        window.onpopstate = function(event) {
+            window.history.pushState(null, document.title, window.location.href);
+        };
+
+        // Check login status on page load
+        window.onload = () => {
+            if (!checkLoginStatus()) return;
+
+            // Prevent going back to this page
+            history.pushState(null, null, location.href);
+            window.onpopstate = function() {
+                history.pushState(null, null, location.href);
+            };
+            loadUserData(); // Load user data from localStorage
+        };
         
-        // Detect if the user is on a mobile device
-        const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        const phoneInput = document.getElementById('phone');
+        const numFamiliesSelect = document.getElementById('numFamilies');
+        const nameInputs = [
+            document.getElementById('name1'), 
+            document.getElementById('name2'), 
+            document.getElementById('name3'), 
+            document.getElementById('name4')
+        ];
+        const submitButton = document.getElementById('submitForm');
+        const qtySelects = document.querySelectorAll('.qtySelect');
 
-        const sendOtpUrl = `${baseUrl}/sendOTP`;
-        const verifyOtpUrl = `${baseUrl}/verifyOTP`;
-        const requestOtpBtn = document.getElementById('requestOtp');
-        const loginBtn = document.getElementById('login');
-        const otpField = document.getElementById('otp');
-
-        function validateEmail(email) {
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailPattern.test(email);
-        }
-
-        // Request OTP
-        requestOtpBtn.addEventListener('click', async () => {
-            const email = document.getElementById('email').value;
-            otpField.value = '';
-
-            if (!email) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Email Required',
-                    text: 'Please enter your email address',
-                    confirmButtonText: 'OK'
-                });
-                return;
+        document.addEventListener('DOMContentLoaded', function() {
+            function updateNameFields() {
+                const numFamilies = parseInt(numFamiliesSelect.value);
+                nameInputs[0].required = true; // Name 1 is always required
+                nameInputs[1].required = false; // Name 2 is not required
+                nameInputs[2].required = (numFamilies === 2); // Name 3 is required only if 2 families
+                nameInputs[3].required = false; // Name 4 is not required
+                
+                // Update hints based on the number of families
+                document.getElementById('hintName3').style.display = (numFamilies === 2 && nameInputs[2].value.trim() === "") ? 'inline' : 'none'; // Show Name 3 hint if 2 families
             }
 
-            if (!validateEmail(email)) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Invalid Email',
-                    text: 'Please enter a valid email address',
-                    confirmButtonText: 'OK'
-                });
-                return;
-            }
+            numFamiliesSelect.addEventListener('change', updateNameFields);
 
-            disableRequestButton(60);
-            disableLoginButton();
-
-            try {
-                const response = await fetch(sendOtpUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email }),
-                });
-
-                if (response.ok) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'OTP Sent',
-                        text: 'OTP sent to your email',
-                        confirmButtonText: 'OK'
-                    }).then(()=>{
-                        enableLoginButton();
-                    });
+            // Function to validate phone number format
+            function validatePhone() {
+                var phoneValue = phoneInput.value;
+                
+                // Regular expression for validating North American phone numbers
+                var phonePattern = /^(?:\(\d{3}\)|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}$/;
+                
+                if (phonePattern.test(phoneValue)) {
+                    return true;
                 } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Failed to send OTP',
-                        confirmButtonText: 'Try Again'
-                    });
-                    enableRequestButton();
-                    enableLoginButton();
+                    return false;
                 }
-            } catch (error) {
-                console.error('Error requesting OTP:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Something went wrong. Please try again later.',
-                    confirmButtonText: 'OK'
-                });
-                enableRequestButton();
-            } finally {
-                enableLoginButton();
-            }
-        });
-
-        // Login with OTP
-        loginBtn.addEventListener('click', async () => {
-            const email = document.getElementById('email').value;
-            const otp = otpField.value;
-            disableLoginButton();
-            if (!email || !otp) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Required fields',
-                    text: 'Please enter both email and OTP',
-                    confirmButtonText: 'OK'
-                });
-                return;
             }
 
-            try {
-                const response = await fetch(verifyOtpUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email, otp }),
-                });
+            // Function to check if all required fields are filled
+            function checkRequiredFields() {
+                const isPhoneValid = validatePhone();
+                const isName1Valid = nameInputs[0].checkValidity();
+                const isName3Valid = numFamiliesSelect.value == '2' ? nameInputs[2].checkValidity() : true; // Only check Name 3 if 2 families
+                return isPhoneValid && isName1Valid && isName3Valid;
+            }
 
-                if (response.ok) {
-                    const { userData } = await response.json();
-                    sessionStorage.setItem('isLoggedIn', 'true');
-                    localStorage.setItem('loginTimestamp', new Date().getTime());
-                    localStorage.setItem('userData', JSON.stringify(userData)); // Store userData
-                    const userDataJSON = JSON.stringify(userData);
-                    console.log(`User data fetched: ${userDataJSON}`);
-                    
-                    //const paidFlag = (JSON.parse(userDataJSON)).paidFlag;
-                    console.log(`systemOpen fetched: ${userData.systemOpen}`);
+            // Disable submit button initially
+            submitButton.disabled = true;
 
-                    // Cannot update if Paid already or system not open
-                    const isPaid = userData.paidFlag.toLowerCase() === 'y';
-                    const isSystemOpen = userData.systemOpen.toLowerCase() === 'y';
-                    const action = isPaid || !isSystemOpen ? 'only review' : 'update';
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Login Successful',
-                        text: `Welcom back!  You can ${action} your submitted info now.`,
-                        confirmButtonText: 'Proceed',
-                    }).then(() => {
-                        window.location.href = 'form.html';
-                    });
-                // new user without real data except the system open flag & email
-                } else if (response.status === 404) {
-                    const { userData } = await response.json();
-                    sessionStorage.setItem('isLoggedIn', 'true');
-                    localStorage.setItem('loginTimestamp', new Date().getTime());
-                    localStorage.setItem('userData', JSON.stringify(userData)); // Store userData
-                    const userDataJSON = JSON.stringify(userData);
-                    console.log(`User data fetched: ${userDataJSON}`);
-                    console.log(`User data not found. Assumming a new user`);
-                    console.log(`systemOpen fetched: ${userData.systemOpen}`);
-
-                    // Cannot register if system not open
-                    const isSystemOpen = userData.systemOpen.toLowerCase() === 'y';
-
-                    if (isSystemOpen) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Login Successful',
-                            text: 'Welcome to the Registration System!',
-                            confirmButtonText: 'Proceed',
-                        }).then(() => {
-                            window.location.href = 'form.html';
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'System closed',
-                            text: 'You cannot do registration now',
-                            confirmButtonText: 'Proceed',
-                        });
+            // Enable/disable submit button based input fields
+            nameInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    submitButton.disabled = true;
+                    if (input === nameInputs[2]) {
+                        if (nameInputs[2].value.trim() === "" && parseInt(numFamiliesSelect.value) === 2) {
+                            document.getElementById('hintName3').style.display = "inline"
+                        } else {
+                            document.getElementById('hintName3').style.display = "none"
+                        }
                     }
-                } else {
+                });
+            });
+
+            // Enable/disable submit button based on T-shirt qty changed
+            qtySelects.forEach(change => {
+                change.addEventListener('change', function() {
+                    submitButton.disabled = true;
+                });
+            });
+
+            // Calculate Total Fee
+            function calculateTotalFee() {
+                let total = 999; // Fixed fee for a residence
+                let tShirtCount = 0;
+
+                // Add meal plan fee of $200 for each person
+                nameInputs.forEach(input => {
+                    if (input.value.trim() !== '') { // Check for non-blank input
+                        total += 200;
+                    }
+                });
+
+                // Add T-shirt order qty amount $20 / pcs
+                qtySelects.forEach(select => {
+                    tShirtCount += parseInt(select.value);
+                });
+                total += tShirtCount * 20; // Add T-shirt costs
+
+                document.getElementById('feeAmount').textContent = `${total.toFixed(2)}`;
+                //submitButton.disabled = total === 999 || !checkRequiredFields();
+                submitButton.disabled = total === 999
+            }
+
+            document.getElementById('calculateFee').addEventListener('click', calculateTotalFee);
+
+            // Clear form
+            document.getElementById('clearInput').addEventListener('click', () => {
+                // clear mobile number
+                document.getElementById('phone').value = '';
+
+                // Clear name inputs
+                nameInputs.forEach(input => {
+                    input.value = ''; // Clear the input value
+                });
+
+                // Reset family count to default
+                numFamiliesSelect.selectedIndex = 0; // Reset to the first option (1 family)
+
+                // Reset select elements
+                document.querySelectorAll(' .colorSelect, .sizeSelect, .qtySelect').
+                    forEach(select => {
+                    select.selectedIndex = 0; // Reset to the first option
+                });
+
+                // Reset total fee
+                document.getElementById('feeAmount').textContent = '0.00';
+
+                // Disable the submit button
+                submitButton.disabled = true;
+
+                // Re-initialize the name fields based on the reset number of families
+                updateNameFields();
+            });
+
+            // Post the form inputs to the backend
+            function saveToBackend() {
+                // Gather data and build the JSON object
+                const email = userDataEmail;
+                const numOfFam = document.getElementById("numFamilies").value;
+                const names = [
+                document.getElementById("name1").value,
+                document.getElementById("name2").value,
+                document.getElementById("name3").value,
+                document.getElementById("name4").value
+                ];
+                const mobile = document.getElementById("phone").value;
+
+                // Gather T-shirt orders
+                const tshirts = [];
+                for (let i = 1; i <= 4; i++) {
+                tshirts.push({
+                    color: document.getElementById("colorSelect" + i).value,
+                    size: document.getElementById("sizeSelect" + i).value,
+                    qty: document.getElementById("qtySelect" + i).value
+                });
+                }
+
+                const totalFee = document.getElementById("feeAmount").textContent;
+
+                // Build the JSON object
+                const formData = {
+                    email: email,
+                    numOfFam: parseInt(numOfFam),
+                    names: names,
+                    mobile: mobile,
+                    tshirts: tshirts,
+                    totalFee: totalFee
+                };
+                console.log('Form data json:', JSON.stringify(formData));
+                // Send the POST request to /saveOrUpdate
+                fetch(saveOrUpdateUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Post save/update success:', data);
+                    Swal.fire({
+                            icon: 'success',
+                            title: 'Registration Submitted',
+                            text: 'Your registration has been submitted successfully.',
+                            confirmButtonText: 'OK'
+                        }).then(()=>{
+                            clearStorage();
+                            window.location.href = 'index.html';
+                        }
+                    );
+                })
+                .catch((error) => {
+                // Handle any errors
+                    console.error('Post save/update Error:', error);
                     Swal.fire({
                         icon: 'error',
-                        title: 'Invalid OTP',
-                        text: 'The OTP you entered is incorrect. Please try again.',
-                        confirmButtonText: 'OK'
-                    }).then(()=>{
-                        enableLoginButton();
+                        title: 'System error',
+                        text: 'There was an error submitting the form. Please retry',
+                        confirmButtonText: 'Proceed',
                     });
-                }
-            } catch (error) {
-                console.error('Error during login:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Something went wrong. Please try again later.',
-                    confirmButtonText: 'OK'
                 });
-            } finally {
-                enableLoginButton();
             }
-        });
 
-        function disableRequestButton(seconds) {
-            requestOtpBtn.disabled = true;
-            let countdown = seconds;
-            requestOtpBtn.innerText = `Request again in ${countdown} seconds`;
+            document.getElementById('submitForm').addEventListener('click', () => {
+                if (!checkLoginStatus()) return;
 
-            const countdownInterval = setInterval(() => {
-                countdown--;
-                requestOtpBtn.innerText = `Request again in ${countdown} seconds`;
+                if (!checkRequiredFields()) {
+                    let missingFields = [];
+                    if (!validatePhone()) missingFields.push('Contact mobile');
+                    if (!nameInputs[0].checkValidity()) missingFields.push('Name 1');
+                    if (numFamiliesSelect.value === '2' && !nameInputs[2].checkValidity()) missingFields.push('Name 3');
 
-                if (countdown <= 0) {
-                    clearInterval(countdownInterval);
-                    enableRequestButton();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Missing / Invalid Fields',
+                        text: `Please check out the field(s): ${missingFields.join(', ')}`,
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    // Post the record to the backend
+                    saveToBackend();
                 }
-            }, 1000);
-        }
+            });
 
-        function enableRequestButton() {
-            requestOtpBtn.disabled = false;
-            requestOtpBtn.innerText = 'Request One Time Password (OTP)';
-        }
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                clearStorage();
+                window.location.href = 'index.html';
+            });
 
-        if (!isMobile) {
-            // Disable right-click only on non-mobile devices
-            document.addEventListener('contextmenu', function (e) {
-                e.preventDefault();
-            }, false);
-        }
+            // Initial setup
+            updateNameFields();
+        });
 
         document.addEventListener('keydown', function(e) {
             if (e.key === 'F12' || 
@@ -247,17 +536,6 @@
                 e.preventDefault();
             }
         });
-
-        // Helper functions to disable and enable Login button
-        function disableLoginButton() {
-            loginBtn.disabled = true;
-            loginBtn.innerText = 'Processing...';
-        }
-
-        function enableLoginButton() {
-            loginBtn.disabled = false;
-            loginBtn.innerText = 'Login';
-        }
     </script>
 </body>
 </html>

@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Retreat Registration Form</title>
-    <link rel="stylesheet" href="/style.css"> <!-- Link to external CSS -->
+    <link rel="stylesheet" href="style.css"> <!-- Link to external CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
+    <!-- Fullscreen loading indicator -->
+    <div id="loading-indicator" style="display: none;">
+        <div class="spinner"></div>
+    </div>
     <button class="logout-btn" id="logoutBtn" style="width: auto;">&#10006;</button>
     <div class="container">
         <h2>Cornerstone Fellowship<br>Retreat Registration Form</h2>
@@ -156,7 +160,15 @@
     <script>
         // Determine the environment
         let baseUrl;
-        baseUrl = 'https://retreatreg-rest.fly.dev';
+        //baseUrl = 'https://retreatreg-rest.fly.dev';
+
+        if (window.location.hostname === 'localhost') {
+            baseUrl = 'https://localhost:3000'; // Local development
+        } else if (window.location.hostname === '192.168.1.117') {
+            baseUrl = 'https://192.168.1.117:3000'; // Intranet testing (replace with actual URL)
+        } else {
+            baseUrl = 'https://your-production-url'; // Production URL (replace with actual URL)
+        }
 
         const saveOrUpdateUrl = `${baseUrl}/saveOrUpdate`;
         var userDataEmail;
@@ -455,6 +467,9 @@
 
             // Post the form inputs to the backend
             function saveToBackend() {
+                const loadingIndicator = document.getElementById('loading-indicator');
+                loadingIndicator.style.display = 'flex';
+
                 // Gather data and build the JSON object
                 const email = userDataEmail;
                 const numOfHH = document.getElementById("numHouseHolds").value;
@@ -491,6 +506,8 @@
                     totalFee: totalFee
                 };
                 console.log('Form data json:', JSON.stringify(formData));
+
+                loadingIndicator.style.display = 'flex';
                 // Send the POST request to /saveOrUpdate
                 fetch(saveOrUpdateUrl, {
                     method: 'POST',
@@ -522,6 +539,9 @@
                         text: 'There was an error submitting the form. Please retry',
                         confirmButtonText: 'Proceed',
                     });
+                })
+                .finally(() => {
+                    loadingIndicator.style.display = 'none';
                 });
             }
 

@@ -9,10 +9,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <!-- Fullscreen loading indicator -->
-    <div id="loading-indicator" style="display: none;">
-        <div class="spinner"></div>
-    </div>
     <button class="logout-btn" id="logoutBtn" style="width: auto;">&#10006;</button>
     <div class="container">
         <h2>Cornerstone Fellowship<br>Retreat Registration Form</h2>
@@ -467,9 +463,6 @@
 
             // Post the form inputs to the backend
             function saveToBackend() {
-                const loadingIndicator = document.getElementById('loading-indicator');
-                loadingIndicator.style.display = 'flex';
-
                 // Gather data and build the JSON object
                 const email = userDataEmail;
                 const numOfHH = document.getElementById("numHouseHolds").value;
@@ -507,7 +500,6 @@
                 };
                 console.log('Form data json:', JSON.stringify(formData));
 
-                loadingIndicator.style.display = 'flex';
                 // Send the POST request to /saveOrUpdate
                 fetch(saveOrUpdateUrl, {
                     method: 'POST',
@@ -539,9 +531,6 @@
                         text: 'There was an error submitting the form. Please retry',
                         confirmButtonText: 'Proceed',
                     });
-                })
-                .finally(() => {
-                    loadingIndicator.style.display = 'none';
                 });
             }
 

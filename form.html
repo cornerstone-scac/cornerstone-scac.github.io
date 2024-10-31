@@ -7,8 +7,13 @@
     <link rel="stylesheet" href="style.css"> <!-- Link to external CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/4.0.0/spin.min.js"></script>
 </head>
 <body>
+    <!-- Fullscreen loading indicator -->
+    <div id="loading-indicator" style="display: none;">
+        <div class="loading-spinner"></div>
+    </div>
     <button class="logout-btn" id="logoutBtn" style="width: auto;">&#10006;</button>
     <div class="container">
         <h2>Cornerstone Fellowship<br>Retreat Registration Form</h2>
@@ -492,6 +497,10 @@
                 };
                 console.log('Form data json:', JSON.stringify(formData));
 
+                // Show loading indicator
+                const loadingIndicator = document.getElementById('loading-indicator');
+                loadingIndicator.style.display = 'flex';
+
                 // Send the POST request to /saveOrUpdate
                 fetch(saveOrUpdateUrl, {
                     method: 'POST',
@@ -523,6 +532,10 @@
                         text: 'There was an error submitting the form. Please retry',
                         confirmButtonText: 'Proceed',
                     });
+                })
+                .finally(() => {
+                    // Hide loading indicator
+                    loadingIndicator.style.display = 'none';
                 });
             }
 

@@ -18,7 +18,7 @@
     <div class="container">
         <h2>Cornerstone Fellowship<br>Retreat Registration Form</h2>
         <p id="eventInfo1">
-            Please note that no matter how many persons (up to four) stay in the unit, you will pay the resident a fixed fee of $999. Besides, each person has to pay for a meal plan of $200. The meal plan includes two meals per day for two days. There are no partial meal plans available.
+            The contact information of the person who completes the registration form will become the contact of that suite. All future communication will be under this registrant’s name, phone number and email. For sharing one suite, all registrants’ information has to be provided in the same registration form.
         </p>
         
         <input type="tel" id="phone" placeholder="Contact Mobile 123-456-7890" required>
@@ -58,7 +58,7 @@
 
         <label>T-shirt Order details:</label>
         <p id="eventInfo2">
-            Each person has 1 free T-shirt and you can select the size below.  The price for each extra T-shirt is $20 if you wish to place more orders.
+            The total number of T-shirts must match the number of people registered above.
         </p>
         
         <table id="tshirtOrderTable">
@@ -83,7 +83,7 @@
                     <td>
                         <div class="number-input">
                             <button class="spinner" onclick="adjustQty(-1, 'qtySpinner1')">-</button>
-                            <input type="number" id="qtySpinner1" value="1" class="qtySpinner" min="0" max="99">
+                            <input type="number" id="qtySpinner1" value="1" class="qtySpinner" min="0" max="4" oninput="this.value = Math.min(Math.max(this.value, 0), 4);">
                             <button class="spinner" onclick="adjustQty(1, 'qtySpinner1')">+</button>
                         </div>
                     </td>
@@ -102,7 +102,7 @@
                     <td>
                         <div class="number-input">
                             <button class="spinner" onclick="adjustQty(-1, 'qtySpinner2')">-</button>
-                            <input type="number" id="qtySpinner2" value="0" class="qtySpinner" min="0" max="99">
+                            <input type="number" id="qtySpinner2" value="0" class="qtySpinner" min="0" max="4" oninput="this.value = Math.min(Math.max(this.value, 0), 4);">
                             <button class="spinner" onclick="adjustQty(1, 'qtySpinner2')">+</button>
                         </div>
                     </td>
@@ -120,7 +120,7 @@
                     <td>
                         <div class="number-input">
                             <button class="spinner" onclick="adjustQty(-1, 'qtySpinner3')">-</button>
-                            <input type="number" id="qtySpinner3" value="0" class="qtySpinner" min="0" max="99">
+                            <input type="number" id="qtySpinner3" value="0" class="qtySpinner" min="0" max="4" oninput="this.value = Math.min(Math.max(this.value, 0), 4);">
                             <button class="spinner" onclick="adjustQty(1, 'qtySpinner3')">+</button>
                         </div>
                     </td>
@@ -138,7 +138,7 @@
                     <td>
                         <div class="number-input">
                             <button class="spinner" onclick="adjustQty(-1, 'qtySpinner4')">-</button>
-                            <input type="number" id="qtySpinner4" value="0" class="qtySpinner" min="0" max="99">
+                            <input type="number" id="qtySpinner4" value="0" class="qtySpinner" min="0" max="4" oninput="this.value = Math.min(Math.max(this.value, 0), 4);">
                             <button class="spinner" onclick="adjustQty(1, 'qtySpinner4')">+</button>
                         </div>
                     </td>
@@ -146,7 +146,7 @@
             </tbody>
         </table>
         <p id="eventInfo3">
-            Please click the calculate button to see the total fees before you submit the registration.
+            Please click the calculate button to see the total fees before you can submit the registration.
         </p>
 
         <p style="display: flex; justify-content: space-between; align-items: center;">
@@ -218,7 +218,7 @@
         function adjustQty(amount, spinnerId) {
             const spinner = document.getElementById(spinnerId);
             let currentValue = parseInt(spinner.value) || 0;
-            currentValue = Math.min(Math.max(currentValue + amount, 0), 99); // Keep within 0-99
+            currentValue = Math.min(Math.max(currentValue + amount, 0), 4); // Keep within 0-4
             spinner.value = currentValue;
         }
 
@@ -340,10 +340,10 @@
                 const isName1Valid = firstNameInputs[0].checkValidity() && lastNameInputs[0].checkValidity();
                 const isName3Valid = numHouseHoldsSelect.value == '2' ? (firstNameInputs[2].checkValidity() && lastNameInputs[0].checkValidity()) : true; // Only check Name 3 if 2 households
                 
-                // Check if T-shirt count is greater than or equal to the number of persons
+                // Check if T-shirt count is equal to the number of persons
                 const personCount = Array.from(firstNameInputs).filter(input => input.value.trim() !== '').length;
                 const tShirtCount = Array.from(qtySpinners).reduce((total, qty) => total + parseInt(qty.value, 10), 0);
-                const isTshirtQtyValid = tShirtCount >= personCount;
+                const isTshirtQtyValid = (tShirtCount == personCount);
 
                 return isPhoneValid && isName1Valid && isName3Valid && isTshirtQtyValid;
             }
@@ -390,33 +390,33 @@
 
             // Calculate Total Fee
             function calculateTotalFee() {
-                const baseFee = 999;        // Fixed fee for a residence
-                const mealPlanFee = 200;    // Meal plan fee for each person
-                const tShirtPrice = 20;     // T-shirt unit price
+                const onePersonFee = 170;
+                const twoPersonFee = 125;
+                const threePersonFee = 110;
+                const fourPersonFee = 102;
 
-                let total = baseFee; 
-                let tShirtCount = 0;
                 let numberOfPeople = 0;     // To count the number of people
+                let feeToPay = 0;           // total fee to be paid
 
-                // Add meal plan fee of $200 for each person
                 firstNameInputs.forEach(input => {
                     if (input.value.trim() !== '') { // Check for non-blank input
-                        total += mealPlanFee;
                         numberOfPeople++; // Increment number of people for each non-blank input
                     }
                 });
 
-                // Add T-shirt order qty amount $20 / pcs, subtract free T-shirts for each person
-                qtySpinners.forEach(spinner => {
-                    tShirtCount += parseInt(spinner.value) || 0; // Ensure the spinner value is a number
-                });
+                if (numberOfPeople == 1) {
+                    feeToPay = onePersonFee;
+                } else if (numberOfPeople == 2) {
+                    feeToPay = twoPersonFee * 2;
+                } else if (numberOfPeople == 3) {
+                    feeToPay = threePersonFee * 3;
+                } else if (numberOfPeople == 4) {
+                    feeToPay = fourPersonFee * 4;
+                }
 
-                // Calculate T-shirt cost only for extra shirts beyond the free ones
-                total += (tShirtCount - numberOfPeople > 0 ? (tShirtCount - numberOfPeople) * 20 : 0); // Only charge for extra T-shirts
-
-                document.getElementById('feeAmount').textContent = `${total.toFixed(2)}`;
+                document.getElementById('feeAmount').textContent = `${feeToPay.toFixed(2)}`;
                 // Disable submit button if no additional payment is required
-                submitButton.disabled = (total === baseFee); 
+                submitButton.disabled = (feeToPay === 0); 
             }
 
             document.getElementById('calculateFee').addEventListener('click', calculateTotalFee);
@@ -552,7 +552,7 @@
 
                     const personCount = Array.from(firstNameInputs).filter(input => input.value.trim() !== '').length;
                     const tShirtCount = Array.from(qtySpinners).reduce((total, qty) => total + parseInt(qty.value, 10), 0);
-                    if (!(tShirtCount >= personCount)) missingFields.push('T-shirt qty not enough for all the people');
+                    if (tShirtCount != personCount) missingFields.push('Number of T-shirts and people not matching');
 
                     Swal.fire({
                         icon: 'error',
